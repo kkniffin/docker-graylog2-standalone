@@ -1,0 +1,1 @@
+# docker-graylog2-standalone

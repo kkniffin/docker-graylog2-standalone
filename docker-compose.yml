@@ -1,0 +1,66 @@
+version: '2'
+services:
+  # Mongo Database
+  mongodb:
+    image: "mongo:3"
+    volumes:
+      - ${COMPOSE_DOCKER_DATA}/docker-graylog2-standalone/mongodb:/data/db
+    networks:
+      - main
+
+  # Elasticsearch (Can Switch this to other ES Host)
+#  elasticsearch:
+#    image: "elasticsearch:2"
+#    command: "elasticsearch -Des.cluster.name='graylog'"
+#    volumes:
+#      - ${COMPOSE_DOCKER_DATA}/docker-graylog2-standalone/elasticsearch:/usr/share/elasticsearch/data
+#    networks:
+#      - main
+
+  # Graylog
+  graylog:
+    build: ./build/graylog2
+    volumes:
+      - ${COMPOSE_DOCKER_CONFIG}/docker-graylog2-standalone/graylog/config:/etc/graylog/server
+    environment:
+      GRAYLOG_PASSWORD_SECRET: ${COMPOSE_GRAYLOG_PASSWORD_SECRET}
+      GRAYLOG_ROOT_PASSWORD_SHA2: ${COMPOSE_GRAYLOG_ROOT_PASSWORD_SHA2}
+      GRAYLOG_WEB_LISTEN_URI: http://0.0.0.0:9000
+      GRAYLOG_REST_LISTEN_URI: http://0.0.0.0:9000/api
+      GRAYLOG_WEB_ENDPOINT_URI: http://10.80.14.47:9000/api
+      GRAYLOG_ROOT_EMAIL: ${COMPOSE_GRAYLOG_ROOT_EMAIL}
+      GRAYLOG_ROOT_TIMEZONE: UTC
+      GRAYLOG_ELASTICSEARCH_MAX_TIME_PER_INDEX: 1d # Each Index is one Day
+      GRAYLOG_ELASTICSEARCH_MAX_NUMBER_OF_INDICES: 30 # Keey 30 Days
+      GRAYLOG_ELASTICSEARCH_INDEX_PREFIX: graylog
+      GRAYLOG_ELASTICSEARCH_CLUSTER_NAME: ${COMPOSE_GRAYLOG_ES_CLUSTERNAME}
+      GRAYLOG_ELASTICSEARCH_DISCOVERY_ZEN_PING_UNICAST_HOSTS: ${COMPOSE_GRAYLOG_ES_HOSTS}
+      GRAYLOG_ELASTICSEARCH_DISCOVERY_ZEN_PING_MULTICAST_ENABLED: ${COMPOSE_GRAYLOG_DS_MULTICAST_ENABLED}
+      GRAYLOG_ELASTICSEARCH_NETWORK_HOST: 0.0.0.0
+      GRAYLOG_ELASTICSEARCH_NODE_MASTER: ${COMPOSE_GRAYLOG_ES_NODE_MASTER}
+      GRAYLOG_ELASTICSEARCH_NODE_DATA: ${COMPOSE_GRAYLOG_ES_NODE_DATA}
+      GRAYLOG_TRANSPORT_EMAIL_ENABLED: "true"
+      GRAYLOG_TRANSPORT_EMAIL_HOSTNAME: ${COMPOSE_GRAYLOG_MAILHOST}
+      GRAYLOG_TRANSPORT_EMAIL_PORT: ${COMPOSE_GRAYLOG_MAILPORT}
+      GRAYLOG_TRANSPORT_EMAIL_USE_AUTH: "false"
+      GRAYLOG_TRANSPORT_EMAIL_USE_TLS: "false"
+      GRAYLOG_TRANSPORT_EMAIL_USE_SSL: "false"
+      GRAYLOG_TRANPSORT_EMAIL_AUTH_USERNAME: ${COMPOSE_GRAYLOG_MAILAUTHUSERNAME}
+      GRAYLOG_TRANSPORT_EMAIL_AUTH_PASSWORD: ${COMPOSE_GRAYLOG_MAILAUTHPASSWORD}
+      GRAYLOG_TRANSPORT_EMAIL_SUBJECT_PREFIX: "[graylog]"
+      GRAYLOG_TRANSPORT_EMAIL_FROM_EMAIL: ${COMPOSE_GRAYLOG_TRANSPORT_EMAIL_FROM_EMAIL}
+      GRAYLOG_TRANSPORT_EMAIL_WEB_INTERFACE_URL: ${COMPOSE_GRAYLOG_URL}
+      GRAYLOG_MONGODB_URI: mongodb://${COMPOSE_MONGODB_SERVER}/graylog
+      GRAYLOG_WEB_ENDPOINT_URI: ${COMPOSE_GRAYLOG_WEB_ENDPOINT_URI}
+    links:
+      - mongodb:mongodb
+#      - elasticsearch:elasticsearch
+    ports:
+      - "9000:9000"
+      - "12201/udp:12201/udp"
+      - "1514/udp:1514/udp"
+    networks:
+      - main
+
+networks:
+  main:
