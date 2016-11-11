@@ -32,6 +32,9 @@ ENV GRAYLOG_CONTENT_PACKS_DIR /graylog_contentpacks
 ENV GRAYLOG_ELASTICSEARCH_NODE_MASTER "false"
 ENV GRAYLOG_ELASTICSEARCH_NODE_DATA "false"
 ENV GRAYLOG_WEB_ENDPOINT_URI "http://1.1.1.1:9000/api"
+ENV GRAYLOG_ELASTICSEARCH_NETWORK_PUBLISH_HOST 0.0.0.0
+ENV GRAYLOG_ELASTICSEARCH_NETWORK_HOST 0.0.0.0
+
 
 RUN apt-get -qq update \
     && apt-get -y upgrade -o Dpkg::Options::="--force-confold" \
@@ -65,5 +68,9 @@ RUN mkdir -p /graylog_plugins
 RUN mkdir -p /graylog_contentpacks
 COPY ./my_init.d/ /etc/my_init.d/
 COPY ./service/ /etc/service/
+
+EXPOSE 9200
+EXPOSE 9300
+EXPOSE 9350
 
 VOLUME ["/etc/graylog/server/","/graylog_plugins","/graylog_contentpacks"]
