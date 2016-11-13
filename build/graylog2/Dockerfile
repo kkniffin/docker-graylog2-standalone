@@ -35,7 +35,6 @@ ENV GRAYLOG_WEB_ENDPOINT_URI "http://1.1.1.1:9000/api"
 ENV GRAYLOG_ELASTICSEARCH_NETWORK_PUBLISH_HOST 0.0.0.0
 ENV GRAYLOG_ELASTICSEARCH_NETWORK_HOST 0.0.0.0
 
-
 RUN apt-get -qq update \
     && apt-get -y upgrade -o Dpkg::Options::="--force-confold" \
     && apt-get -y dist-upgrade \
