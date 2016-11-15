@@ -22,7 +22,7 @@ sleep 10
 #sleep 5
 
 # Post Hostname to Local Hosts File, otherwise wont come up.
-echo "127.0.0.1 ${MONGODB_REPLICATIONSET_HOSTNAME}" >> /etc/hosts
+#echo "127.0.0.1 ${MONGODB_REPLICATIONSET_HOSTNAME}" >> /etc/hosts
 
 # Export Config to js file for reading into Mongo
 cat <<EOT> /tmp/setup_mongodb.js

@@ -22,9 +22,10 @@ COPY  ./files/scripts/* /scripts/
 # Change Permissions
 RUN chmod +x /scripts/*
 
-# Create Defautl Keyfile that is random
+# Create Default Keyfile that is random
 RUN sed -i "\$i if [ ! -e "/config/keyfile.key" ]; then openssl rand -base64 741 > /config/keyfile.key; fi" /etc/rc.local
 RUN sed -i "\$i chmod 600 /config/keyfile.key" /etc/rc.local
+# Run Script to setup MongoDB
 RUN sed -i "\$i /scripts/setup_mongodb.sh &" /etc/rc.local
 RUN sed -i "\$i mongod --replSet ${MONGODB_REPLICATIONSET_NAME} --keyFile /config/keyfile.key" /etc/rc.local
 

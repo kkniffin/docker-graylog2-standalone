@@ -12,6 +12,9 @@ services:
       MONGODB_REPLICATIONSET_HOSTNAME: ${COMPOSE_MONGODB_REPLICATIONSET_HOSTNAME}
       MONGODB_GRAYLOGDB_PW: ${COMPOSE_MONGODB_GRAYLOGDB_PW}
       MONGODB_SUPERADMIN_PW: ${COMPOSE_MONGODB_SUPERADMIN_PW}
+    extra_hosts:
+      # Needed to add to container hosts file so that ReplSet can be made successfully
+      - "${COMPOSE_MONGODB_REPLICATIONSET_HOSTNAME}:127.0.0.1"
     ports:
       - "27017:27017" # Mongo Port for Replication
     command: sh /etc/rc.local 
