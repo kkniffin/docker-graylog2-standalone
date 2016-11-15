@@ -64,6 +64,7 @@ services:
     ports:
       - "9000:9000" # Graylog Website
       - "9350:9350" # ElasticSearch Communication
+      - "12900:12900" # Graylog Rest Transport for Clustering
       - "12201/udp:12201/udp"
       - "1514/udp:1514/udp"
     networks:
