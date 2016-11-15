@@ -43,6 +43,8 @@ export COMPOSE_GRAYLOG_ES_MULTICAST_ENABLED="${COMPOSE_GRAYLOG_ES_MULTICAST_ENAB
 export COMPOSE_GRAYLOG_ES_PUBLISH_HOST="${COMPOSE_GRAYLOG_ES_PUBLISH_HOST:-0.0.0.0}"
 export COMPOSE_GRAYLOG_ES_NETWORK_HOST="${COMPOSE_GRAYLOG_ES_NETWORK_HOST:-0.0.0.0}"
 export COMPOSE_GRAYLOG_MASTER="${COMPOSE_GRAYLOG_MASTER:-true}"
+# Set REST Transport URI to External IP so that all Cluster Nodes can connect with it
+export COMPOSE_GRAYLOG_REST_TRANSPORT_URI="${COMPOSE_GRAYLOG_REST_TRANSPORT_URI:-http://$(/sbin/ifconfig eth0 | grep 'inet ' | grep -Eow '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1):12900}"
 
 # Run Standard Docker-Compose with Arguments
 docker-compose "$@"
