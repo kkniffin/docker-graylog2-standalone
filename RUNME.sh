@@ -37,6 +37,9 @@ export COMPOSE_GRAYLOG_MASTER="${COMPOSE_GRAYLOG_MASTER:-true}"
 ## MongoDB Docker Compose Settings
 #### MongoDB Replication Set Name
 export COMPOSE_MONGODB_REPLICATIONSET_NAME="${COMPOSE_MONGO_REPLICATIONSET_NAME:-GraylogSet}"
+export COMPOSE_MONGODB_REPLICATIONSET_PRIMARY="${COMPOSE_MONGODB_RS_PRIMARY:-true}"
+export COMPOSE_MONGODB_GRAYLOGDB_PW="${COMPOSE_MONGODB_GRAYLOG_PW:-changeme}" # Username: graylogdb
+export COMPOSE_MONGODB_SUPERADMIN_PW="${COMPOSE_MONGODB_SUPERADMIN_PW:-changeme}" # Username: superadmin
 
 # Run Standard Docker-Compose with Arguments
 docker-compose "$@"
