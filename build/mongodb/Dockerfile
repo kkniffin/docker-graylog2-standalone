@@ -5,6 +5,7 @@ ENV MONGODB_REPLICATIONSET_NAME GraylogSet
 ENV MONGODB_REPLICATIONSET_PRIMARY true
 ENV MONGODB_GRAYLOGDB_PW changeme
 ENV MONGODB_SUPERADMIN_PW changeme
+ENV MONGODB_REPLICATIONSET_HOSTNAME changeme
 
 RUN apt-get -qq update \
     && apt-get -y upgrade -o Dpkg::Options::="--force-confold" \
