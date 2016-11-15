@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # If MongoDB is Primary then setup User's and Database
-if [[ ${MONGODB_REPLICATIONSET_PRIMARY,,} = "true" ]] && [ ! -f /scripts/db_is_setup ]; then
+if [[ ${MONGODB_REPLICATIONSET_PRIMARY,,} = "true" ]] && [ ! -f /data/db/db_is_setup ]; then
 
 # Wait for MongoDB to come up.
 echo "###################################################################################"
@@ -21,11 +21,10 @@ echo "####### MONGO SETUP - SLEEPNG FOR 5 SECS FOR REPLICATION TO FINISH #######
 echo "###################################################################################"
 sleep 5
 
-# Export Config to js file for reading into Mongo
+	# Export Config to js file for reading into Mongo
 cat <<EOT> /tmp/setup_mongodb.js
-	admin = db.getSiblingDB("admin")
-
-	db.getSiblingDB("admin").createUser(
+admin = db.getSiblingDB("admin")
+db.getSiblingDB("admin").createUser(
           {
             "user" : "superadmin",
             "pwd" : "${MONGODB_SUPERADMIN_PW}",
@@ -53,7 +52,19 @@ echo "####### MONGO SETUP - CREATING USERS #####################################
 echo "###################################################################################"
 mongo < /tmp/setup_mongodb.js
 rm -rf /tmp/setup_mongodb.js
-touch /scripts/db_is_setup
+touch /data/db/db_is_setup
+
+elif [[ ! ${MONGODB_REPLICATIONSET_PRIMARY,,} = "true" ]]; then
+
+echo "###################################################################################"
+echo "####### MONGO SETUP - NOT SET AS PRIMARY ##########################################"
+echo "###################################################################################"
+
+elif [ -f /data/db/db_is_setup ]; then
+
+echo "###################################################################################"
+echo "####### MONGO SETUP - DATABASE ALREADY SETUP ######################################"
+echo "###################################################################################"
 
 fi
 
