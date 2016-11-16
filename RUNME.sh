@@ -77,9 +77,11 @@ export COMPOSE_GRAYLOG_MONGODB_URI="${COMPOSE_GRAYLOG_MONGODB_URI:-mongodb://gra
 
 ##### GRAYLOG WEB OPTIONS
 # Set REST Transport URI to External IP so that all Cluster Nodes can connect with it
-export COMPOSE_GRAYLOG_REST_TRANSPORT_URI="${COMPOSE_GRAYLOG_REST_TRANSPORT_URI:-http://$(/sbin/ifconfig eth0 | grep 'inet ' | grep -Eow '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1):9000/api}"
-export COMPOSE_GRAYLOG_WEB_LISTEN_URI="${COMPOSE_GRAYLOG_WEB_LISTEN_URI:-http://0.0.0.0:9000}"
-export COMPOSE_GRAYLOG_WEB_ENDPOINT_URI="${COMPOSE_GRAYLOG_WEB_ENDPOINT_URI:-http://$(/sbin/ifconfig eth0 | grep 'inet ' | grep -Eow '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1):9000/api}" 
+export COMPOSE_GRAYLOG_REST_LISTEN_URI="${COMPOSE_GRAYLOG_REST_LISTEN_URI:-http://0.0.0.0:12900}" # http://0.0.0.0:9000/api
+# Should be Public IP
+export COMPOSE_GRAYLOG_REST_TRANSPORT_URI="${COMPOSE_GRAYLOG_REST_TRANSPORT_URI:-http://$(/sbin/ifconfig eth0 | grep 'inet ' | grep -Eow '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1):12900}" # http://<publicip>:9000/api
+export COMPOSE_GRAYLOG_WEB_LISTEN_URI="${COMPOSE_GRAYLOG_WEB_LISTEN_URI:-http://0.0.0.0:9000}" # http://0.0.0.0:9000
+export COMPOSE_GRAYLOG_WEB_ENDPOINT_URI="${COMPOSE_GRAYLOG_WEB_ENDPOINT_URI:-http://$(/sbin/ifconfig eth0 | grep 'inet ' | grep -Eow '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1):12900}" # http://<publicip>:9000/api
 export COMPOSE_GRAYLOG_WEB_ENABLE="${COMPOSE_GRAYLOG_WEB_ENABLE:-true}"
 export COMPOSE_GRAYLOG_WEB_ENABLE_TLS="${COMPOSE_GRAYLOG_WEB_ENABLE_TLS:-false}"
 export COMPOSE_GRAYLOG_WEB_TLS_CERT_FILE="${COMPOSE_GRAYLOG_WEB_TLS_CERT_FILE:-/path/to/graylog-web.crt}"
