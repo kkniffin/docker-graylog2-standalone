@@ -14,7 +14,7 @@ services:
       MONGODB_SUPERADMIN_PW: ${COMPOSE_MONGODB_SUPERADMIN_PW}
     extra_hosts:
       # Needed to add to container hosts file so that ReplSet can be made successfully
-      - "${COMPOSE_MONGODB_REPLICATIONSET_HOSTNAME}:127.0.0.1"
+      - "${COMPOSE_MONGODB_REPLICATIONSET_HOSTNAME}:${COMPOSE_MONGODB_PUBLICIP}"
     ports:
       - "27017:27017" # Mongo Port for Replication
     command: sh /etc/rc.local 
@@ -72,8 +72,6 @@ services:
       - "9000:9000" # Graylog Website
       - "9350:9350" # ElasticSearch Communication
       - "12900:12900" # Graylog Rest Transport for Clustering
-      - "12201/udp:12201/udp"
-      - "1514/udp:1514/udp"
     networks:
       - main
 

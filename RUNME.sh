@@ -25,6 +25,7 @@ export COMPOSE_MONGODB_REPLICATIONSET_PRIMARY="${COMPOSE_MONGODB_REPLICATIONSET_
 export COMPOSE_MONGODB_REPLICATIONSET_HOSTNAME="${COMPOSE_MONGODB_REPLICATIONSET_HOSTNAME:-$(hostname -f)}" # MongoDB Replication Hostname, if not set will default to Docker Parent Hostname
 export COMPOSE_MONGODB_GRAYLOGDB_PW="${COMPOSE_MONGODB_GRAYLOG_PW:-changeme}" # Username: graylogdb/changeme
 export COMPOSE_MONGODB_SUPERADMIN_PW="${COMPOSE_MONGODB_SUPERADMIN_PW:-changeme}" # Username: superadmin/changeme
+export COMPOSE_MONGODB_PUBLICIP="${COMPOSE_MONGODB_PUBLICIP:-$(/sbin/ifconfig eth0 | grep 'inet ' | grep -Eow '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)}"
 
 #######################################
 # Graylog Docker Compose Settings #####

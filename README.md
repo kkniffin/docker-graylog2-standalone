@@ -29,11 +29,9 @@ cfg.members[0].priority = 10
 cfg.members[1].priority = 5
 cfg.members[2].priority = 2
 rs.reconfig(cfg)
-<<<<<<< HEAD
-=======
 
 # DATABASE COMMANDS
 show dbs
 use <db>
 show collections
->>>>>>> 6b27e1d8de274b621645fbb41da89e93f3b3d955
+
