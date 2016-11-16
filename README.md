@@ -19,3 +19,8 @@ rs.add("<SERVER3>")
 
 use Graylog
 db.getCollectionNames().forEach(function(c) { if (c.indexOf("system.") == -1) db[c].drop(); })
+
+# DATABASE COMMANDS
+show dbs
+use <db>
+show collections
