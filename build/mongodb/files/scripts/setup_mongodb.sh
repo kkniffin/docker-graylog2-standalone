@@ -27,10 +27,14 @@ sleep 10
 # Export Config to js file for reading into Mongo
 cat <<EOT> /tmp/setup_mongodb.js
 
-var replicaconfig = { _id: "${MONGODB_REPLICATIONSET_NAME}",
-    members: [
-        { _id: 0, host: "${MONGODB_REPLICATIONSET_HOSTNAME}"}
-    ]
+var replicaconfig = {
+  _id: "${MONGODB_REPLICATIONSET_NAME}",
+     members: [
+        { _id: 0,
+          host: "${MONGODB_REPLICATIONSET_HOSTNAME}:27017",
+          "priority" : 10
+        }
+     ]
 };
 print('################ MONGODB - Initiating Replica Configuration ################');
 rs.initiate(replicaconfig);
@@ -44,6 +48,9 @@ while ( rs.status().startupStatus || (rs.status().hasOwnProperty("myState") && r
 
 print('################ MONGODB - Replica Ready, Status is: ################');
 printjson( rs.status() );
+
+print("################ MONGODB - Sleeping for 10, because we're tired ####");
+sleep(10000);
 
 admin = db.getSiblingDB("admin")
 

@@ -13,8 +13,8 @@ services:
       MONGODB_GRAYLOGDB_PW: ${COMPOSE_MONGODB_GRAYLOGDB_PW}
       MONGODB_SUPERADMIN_PW: ${COMPOSE_MONGODB_SUPERADMIN_PW}
     extra_hosts:
-      # Needed to add to container hosts file so that ReplSet can be made successfully
-      - "${COMPOSE_MONGODB_REPLICATIONSET_HOSTNAME}:${COMPOSE_MONGODB_PUBLICIP}"
+       # Needed to add to container hosts file so that ReplSet can be made successfully
+      - "${COMPOSE_MONGODB_REPLICATIONSET_HOSTNAME}:127.0.0.1"
     ports:
       - "27017:27017" # Mongo Port for Replication
     command: sh /etc/rc.local 
@@ -26,6 +26,7 @@ services:
     build: ./build/graylog2
     volumes:
       - ${COMPOSE_DOCKER_CONFIG}/${COMPOSE_PROJECT_NAME}/graylog/config:/etc/graylog/server
+      - ${COMPOSE_DOCKER_DATA}/${COMPOSE_PROJECT_NAME}/graylog/logs:/var/log/graylog-server
     environment:
       GRAYLOG_PASSWORD_SECRET: ${COMPOSE_GRAYLOG_PASSWORD_SECRET}
       GRAYLOG_ROOT_PASSWORD_SHA2: ${COMPOSE_GRAYLOG_ROOT_PASSWORD_SHA2}
@@ -67,7 +68,10 @@ services:
       GRAYLOG_REST_TRANSPORT_URI: ${COMPOSE_GRAYLOG_REST_TRANSPORT_URI}
       GRAYLOG_REST_LISTEN_URI: ${COMPOSE_GRAYLOG_REST_LISTEN_URI}
     links:
-      - mongodb:mongodb
+      - mongodb:${COMPOSE_MONGODB_REPLICATIONSET_HOSTNAME}
+    extra_hosts:
+       # Needed to add to container hosts file so that ReplSet can be made successfully
+      - "${COMPOSE_MONGODB_REPLICATIONSET_HOSTNAME}:127.0.0.1"
     ports:
       - "9000:9000" # Graylog Website
       - "9350:9350" # ElasticSearch Communication
